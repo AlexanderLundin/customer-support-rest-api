@@ -21,6 +21,7 @@ public class JpaRequestDao implements RequestDao {
     @PersistenceContext
     EntityManager em;
 
+    private final static String REQUEST_COUNT = "select count(*) from Request ";
     private final static String REQUEST_FIND_ALL = "select r from Request r";
 
 
@@ -29,19 +30,21 @@ public class JpaRequestDao implements RequestDao {
 
     @Override
     public long count() {
-        Query query = em.createQuery(REQUEST_FIND_ALL);
-        List<Request> Requests = (List<Request>) query.getResultList();
-        return Requests.size();
+        Query query = em.createQuery(REQUEST_COUNT);
+        long count = (long) query.getSingleResult();
+        return count;
     }
 
+    @Override
+    public List<Request> findAll() {
+        Query query = em.createQuery(REQUEST_FIND_ALL);
+        List<Request> Requests = (List<Request>) query.getResultList();
+        return Requests;
+    }
 
     
     // required by interface implementation
 
-    @Override
-    public List<Request> findAll() {
-        return null;
-    }
 
     @Override
     public List<Request> findAll(Sort sort) {
@@ -147,7 +150,7 @@ public class JpaRequestDao implements RequestDao {
     public <S extends Request> long count(Example<S> example) {
         return 0;
     }
-    
+
     @Override
     public <S extends Request> boolean exists(Example<S> example) {
         return false;
