@@ -1,11 +1,14 @@
 package com.galvanize.entities;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Table(name = "customer_requests", schema = "customer_api")
 public class Request {
 
+    // database columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "requestNumber", nullable = false)
@@ -24,11 +27,11 @@ public class Request {
     private String technician;
     @Column(name = "appointmentDate")
     private String appointmentDate;
-    @Enumerated(EnumType.STRING)
     @Column(name = "requestStatus")
+    @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
-
-    //private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    // class fields
+    private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
 
     public Request(){
@@ -36,8 +39,8 @@ public class Request {
     }
 
     public Request(String customerName, String customerAddress, String phoneNumber, String description) {
-        //Date date = new Date();
-        //this.requestDateTime = sd.format(date);
+        Date date = new Date();
+        this.requestDateTime = sd.format(date);
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.phoneNumber = phoneNumber;
@@ -109,13 +112,13 @@ public class Request {
         this.appointmentDate = appointmentDate;
     }
 
-//    public SimpleDateFormat getSd() {
-//        return sd;
-//    }
-//
-//    public void setSd(SimpleDateFormat sd) {
-//        this.sd = sd;
-//    }
+    public SimpleDateFormat getSd() {
+        return sd;
+    }
+
+    public void setSd(SimpleDateFormat sd) {
+        this.sd = sd;
+    }
 
     public RequestStatus getRequestStatus() {
         return requestStatus;
