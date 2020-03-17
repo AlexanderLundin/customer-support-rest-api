@@ -30,8 +30,9 @@ public class Request {
     @Column(name = "requestStatus")
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
+
     // class fields
-    private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    private static SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
 
     public Request(){

@@ -17,11 +17,11 @@ class JpaRequestDaoTest {
 
 
     @Test
-    public void TestJPAGetReqeestCount() {
+    public void TestJPAGetRequestCount() {
         //Setup
         //Exercise
         long expected = 2L;
-        long actual = jpaRequestDao.getRequestCount();
+        long actual = jpaRequestDao.count();
         //Assert
         assertEquals(expected, actual);
         //Teardown

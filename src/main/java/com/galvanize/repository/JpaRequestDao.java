@@ -11,17 +11,34 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class JpaRequestDao implements JpaRepository<Request, Integer> {
 
+    @PersistenceContext
     EntityManager em;
 
-    public long getRequestCount() {
-        return 2L;
+    private final static String REQUEST_FIND_ALL = "select r from Request r";
+
+    /**
+     * Returns the number of entities available.
+     *
+     * @return the number of entities.
+     */
+    @Override
+    public long count() {
+        Query query = em.createQuery(REQUEST_FIND_ALL);
+        List<Request> Requests = (List<Request>) query.getResultList();
+        return Requests.size();
     }
+
+
+    
+    // required by interface implementation
 
     @Override
     public List<Request> findAll() {
@@ -49,15 +66,6 @@ public class JpaRequestDao implements JpaRepository<Request, Integer> {
         return null;
     }
 
-    /**
-     * Returns the number of entities available.
-     *
-     * @return the number of entities.
-     */
-    @Override
-    public long count() {
-        return 0;
-    }
 
     /**
      * Deletes the entity with the given id.
