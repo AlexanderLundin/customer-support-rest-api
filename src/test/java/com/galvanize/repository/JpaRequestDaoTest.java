@@ -17,7 +17,7 @@ class JpaRequestDaoTest {
 
 
     @Test
-    public void TestJPAGetRequestCount() {
+    public void testJPAGetRequestCount() {
         //Setup
         //Exercise
         long expected = 2L;

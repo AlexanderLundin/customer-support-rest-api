@@ -11,7 +11,7 @@ class RequestTest {
     private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
     @Test
-    public void TestCreateRequest() {
+    public void testCreateRequest() {
         //Setup
         String customerName = "Some Customer";
         String customerAddress = "123 Any Street, SomeCity, ST, 99999";
