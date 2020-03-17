@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Request {
-    private Long requestCount = 0L;
+    private static Long requestCount = 0L;
     private Long requestNumber;
     private String requestDateTime;
     private String customerName;
@@ -13,8 +13,10 @@ public class Request {
     private String description;
     private String technician;
     private String appointmentDate;
-    //private RequestStatus status;
+    private RequestStatus status;
     private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+
+
 
     public Request(String customerName, String customerAddress, String phoneNumber, String description) {
         Date date = new Date();
@@ -108,5 +110,12 @@ public class Request {
         this.sd = sd;
     }
 
+    public RequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RequestStatus status) {
+        this.status = status;
+    }
 
 }
