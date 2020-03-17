@@ -1,41 +1,48 @@
 package com.galvanize.entities;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "customer_requests", schema = "customer_api")
 public class Request {
-    private static Long requestCount = 0L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "requestNumber", nullable = false)
     private Long requestNumber;
+    @Column(name = "requestDateTime", nullable = false)
     private String requestDateTime;
+    @Column(name = "customerName", nullable = false)
     private String customerName;
+    @Column(name = "customerAddress", nullable = false)
     private String customerAddress;
+    @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
+    @Column(name = "description", nullable = false)
     private String description;
+    @Column(name = "technician")
     private String technician;
+    @Column(name = "appointmentDate")
     private String appointmentDate;
-    private RequestStatus status;
-    private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    @Enumerated(EnumType.STRING)
+    @Column(name = "requestStatus")
+    private RequestStatus requestStatus;
+
+    //private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
 
+    public Request(){
+
+    }
 
     public Request(String customerName, String customerAddress, String phoneNumber, String description) {
-        Date date = new Date();
-        this.requestNumber = requestCount;
-        this.requestDateTime = sd.format(date);
+        //Date date = new Date();
+        //this.requestDateTime = sd.format(date);
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.phoneNumber = phoneNumber;
         this.description = description;
         this.technician = "UNASSIGNED";
-        requestCount += 1L;
-    }
-
-    public Long getRequestCount() {
-        return requestCount;
-    }
-
-    public void setRequestCount(Long requestCount) {
-        this.requestCount = requestCount;
     }
 
     public Long getRequestNumber() {
@@ -102,20 +109,20 @@ public class Request {
         this.appointmentDate = appointmentDate;
     }
 
-    public SimpleDateFormat getSd() {
-        return sd;
+//    public SimpleDateFormat getSd() {
+//        return sd;
+//    }
+//
+//    public void setSd(SimpleDateFormat sd) {
+//        this.sd = sd;
+//    }
+
+    public RequestStatus getRequestStatus() {
+        return requestStatus;
     }
 
-    public void setSd(SimpleDateFormat sd) {
-        this.sd = sd;
-    }
-
-    public RequestStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(RequestStatus status) {
-        this.status = status;
+    public void setRequestStatus(RequestStatus requestStatus) {
+        this.requestStatus = requestStatus;
     }
 
 }
