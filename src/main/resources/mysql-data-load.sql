@@ -1,6 +1,6 @@
 DROP DATABASE customer_api;
 CREATE DATABASE customer_api;
-Use customer_api
+Use customer_api;
 DROP TABLE IF EXISTS customer_requests;
 CREATE TABLE customer_requests (
     requestNumber   INTEGER NOT NULL AUTO_INCREMENT,

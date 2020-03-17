@@ -44,4 +44,16 @@ class JpaRequestDaoTest {
         assertEquals(expected, actual);
         //Teardown
     }
+
+    @Test
+    public void testJPARequestFindById() {
+        //Setup
+        //Exercise
+        long expected = 1L;
+        Request request = jpaRequestDao.findById(expected);
+        long actual = request.getRequestNumber();
+        //Assert
+        assertEquals(expected, actual);
+        //Teardown
+    }
 }

@@ -8,10 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +20,7 @@ public class JpaRequestDao implements RequestDao {
 
     private final static String REQUEST_COUNT = "select count(*) from Request ";
     private final static String REQUEST_FIND_ALL = "select r from Request r";
-
+    private final String REQUEST_FIND_BY_ID = "select r from Request r where r.requestNumber = :requestNumber";
 
     // READ
 
@@ -42,7 +39,19 @@ public class JpaRequestDao implements RequestDao {
         return Requests;
     }
 
-    
+
+
+    public Request findById(long requestNumber) {
+        TypedQuery<Request> query = em.createQuery(REQUEST_FIND_BY_ID, Request.class);
+        query.setParameter("requestNumber", requestNumber);
+        try{
+            Request officer = query.getSingleResult();
+            return null;
+        }catch(javax.persistence.NoResultException e){
+            return null;
+        }
+    }
+
     // required by interface implementation
 
 
