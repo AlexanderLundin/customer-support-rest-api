@@ -33,7 +33,8 @@ public class JbdcRequestDao {
 
     public Request save(Request request) {
         SqlParameterSource parameters = new BeanPropertySqlParameterSource(request);
-        Number number = insertRequest.executeAndReturnKey(parameters);
+        long finalRequestNumber = insertRequest.executeAndReturnKey(parameters).longValue();
+        request.setRequestNumber(finalRequestNumber);
         return request;
     }
 
