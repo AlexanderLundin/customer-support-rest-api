@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-//@Transactional
+@Transactional
 class JbdcRequestDaoTest {
 
     @Autowired

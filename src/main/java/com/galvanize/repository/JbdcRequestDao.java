@@ -22,15 +22,15 @@ public class JbdcRequestDao {
     private SimpleJdbcInsert insertRequestNote;
 
     //DB query strings
-    private final String FETCH_REQUEST_BY_ID = "select * from customer_requests where requestNumber = ?";
-    private final static String UPDATE_REQUEST_TAR_BY_ID = "update customer_requests set technician = ?, appointmentDate = ?, requestStatus = ? where requestNumber = ?";
-    private final String FETCH_REQUEST_NOTE_BY_ID = "select * from request_notes where requestNumber = ?";
+    private final String FETCH_REQUEST_BY_ID = "select * from customer_requests where request_number = ?";
+    private final static String UPDATE_REQUEST_TAR_BY_ID = "update customer_requests set technician = ?, appointment_date = ?, request_status = ? where request_number = ?";
+    private final String FETCH_REQUEST_NOTE_BY_ID = "select * from request_notes where request_number = ?";
 
     public JbdcRequestDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         insertRequest = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("customer_requests")
-                .usingGeneratedKeyColumns("requestNumber");
+                .usingGeneratedKeyColumns("request_number");
         insertRequestNote = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("request_notes")
                 .usingColumns("date_time", "notes", "request_number")
@@ -56,15 +56,15 @@ public class JbdcRequestDao {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_ID,
                     (rs, rowNum) -> new Request(
-                            rs.getLong("requestNumber"),
-                            rs.getString("requestDateTime"),
-                            rs.getString("customerName"),
-                            rs.getString("customerAddress"),
-                            rs.getString("phoneNumber"),
+                            rs.getLong("request_number"),
+                            rs.getString("request_date_time"),
+                            rs.getString("customer_name"),
+                            rs.getString("customer_address"),
+                            rs.getString("phone_number"),
                             rs.getString("description"),
                             rs.getString("technician"),
-                            rs.getString("appointmentDate"),
-                            rs.getString("requestStatus")
+                            rs.getString("appointment_date"),
+                            rs.getString("request_status")
                     ),
                     id));
 
@@ -84,15 +84,15 @@ public class JbdcRequestDao {
         try {
             oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_ID,
                     (rs, rowNum) -> new Request(
-                            rs.getLong("requestNumber"),
-                            rs.getString("requestDateTime"),
-                            rs.getString("customerName"),
-                            rs.getString("customerAddress"),
-                            rs.getString("phoneNumber"),
+                            rs.getLong("request_number"),
+                            rs.getString("request_date_time"),
+                            rs.getString("customer_name"),
+                            rs.getString("customer_address"),
+                            rs.getString("phone_number"),
                             rs.getString("description"),
                             rs.getString("technician"),
-                            rs.getString("appointmentDate"),
-                            rs.getString("requestStatus")
+                            rs.getString("appointment_date"),
+                            rs.getString("request_status")
                     ),
                     requestNumber));
 
@@ -117,15 +117,15 @@ public class JbdcRequestDao {
         try {
             oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_ID,
                     (rs, rowNum) -> new Request(
-                            rs.getLong("requestNumber"),
-                            rs.getString("requestDateTime"),
-                            rs.getString("customerName"),
-                            rs.getString("customerAddress"),
-                            rs.getString("phoneNumber"),
+                            rs.getLong("request_number"),
+                            rs.getString("request_date_time"),
+                            rs.getString("customer_name"),
+                            rs.getString("customer_address"),
+                            rs.getString("phone_number"),
                             rs.getString("description"),
                             rs.getString("technician"),
-                            rs.getString("appointmentDate"),
-                            rs.getString("requestStatus")
+                            rs.getString("appointment_date"),
+                            rs.getString("request_status")
                     ),
                     requestNumber));
 
