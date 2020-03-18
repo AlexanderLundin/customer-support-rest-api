@@ -19,7 +19,7 @@ public class JbdcRequestDao {
 
     //DB query strings
     private final String FETCH_REQUEST_BY_ID = "select * from customer_requests where requestNumber = ?";
-    private final static String UPDATE_ASSIGNED = "update customer_requests set technician = ?, appointmentDate = ?, requestStatus = ? where requestNumber = ?";
+    private final static String UPDATE_REQUEST_ASSIGNED = "update customer_requests set technician = ?, appointmentDate = ?, requestStatus = ? where requestNumber = ?";
 
     public JbdcRequestDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -95,7 +95,7 @@ public class JbdcRequestDao {
         request.setTechnician(technician);
         request.setAppointmentDate(appointmentDate + " " + appointmentTime);
         request.setRequestStatus(RequestStatus.ASSIGNED);
-        String updateQuery = UPDATE_ASSIGNED;
+        String updateQuery = UPDATE_REQUEST_ASSIGNED;
         int rowEffected = jdbcTemplate.update(updateQuery, technician, appointmentDate, RequestStatus.ASSIGNED.toString() ,requestNumber);
 
         return request;
