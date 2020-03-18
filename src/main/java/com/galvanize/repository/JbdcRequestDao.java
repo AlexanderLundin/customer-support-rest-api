@@ -32,7 +32,7 @@ public class JbdcRequestDao {
                 .usingGeneratedKeyColumns("request_number");
         insertRequestNote = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("request_notes")
-                .usingColumns("date_time", "notes", "request_number")
+                .usingColumns("date_time", "notes", "fk_request_number")
                 .usingGeneratedKeyColumns("note_id");
     }
 
@@ -141,13 +141,13 @@ public class JbdcRequestDao {
         RequestNote requestNote;
         if (notes != "") {
             long note_id = 1L;
-            requestNote = new RequestNote(note_id, dateTime, notes, request);
+            requestNote = new RequestNote(note_id, dateTime, notes);
             request.addNote(requestNote);
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("node_id", note_id);
             parameters.put("date_time", dateTime);
             parameters.put("notes", notes);
-            parameters.put("request_number", requestNumber);
+            parameters.put("fk_request_number", requestNumber);
             long finalRequestNumber = insertRequestNote.executeAndReturnKey(parameters).longValue();
             request.setRequestNumber(finalRequestNumber);
 

@@ -79,7 +79,6 @@ class JbdcRequestDaoTest {
         String appointmentDate = "03/17/2020";
         String appointmentTime = "10:00AM";
         Request request = jbdcRequestDao.updateAssignById(requestNumber, technician, appointmentDate, appointmentTime);
-
         String actual = request.getAppointmentDate();
         String expected = appointmentDate + " " + appointmentTime;
         //Assert
@@ -98,7 +97,6 @@ class JbdcRequestDaoTest {
         String status = "RESOLVED";
         String notes = "Some notes2";
         Request request = jbdcRequestDao.updateRequestNoteByRequestNumber(requestNumber, technician, appointmentDate, appointmentTime, status, notes);
-
         String actual = request.getAppointmentDate();
         String expected = appointmentDate + " " + appointmentTime;
         //Assert

@@ -34,13 +34,24 @@ public class Request {
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
 
-    @OneToMany(mappedBy = "request", fetch = FetchType.LAZY,
+
+    @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_request_number")
     private Set<RequestNote> notes = new HashSet<>();;
 
     // class fields
     private static SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
+    // inner class to hold partial contents of the full note object
+    class NoteContents {
+        private String dateTime;
+        private String notes;
+        public NoteContents(String dateTime, String notes){
+            this.dateTime = dateTime;
+            this.notes = notes;
+        }
+    }
 
     public Request(){
 

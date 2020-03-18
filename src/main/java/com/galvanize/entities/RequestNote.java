@@ -1,7 +1,6 @@
 package com.galvanize.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "request_notes", schema = "customer_api")
@@ -15,13 +14,9 @@ public class RequestNote{
     private String dateTime;
     @Column(name = "notes")
     private String notes;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //foreign key owner
-    @JoinColumn(name = "request_number", nullable = false)
-    private Request request;
 
 
-    public RequestNote(long noteId, String dateTime, String notes, Request request) {
+    public RequestNote(long noteId, String dateTime, String notes) {
         this.noteId = noteId;
         this.dateTime = dateTime;
         this.notes = notes;
@@ -54,11 +49,4 @@ public class RequestNote{
         this.notes = notes;
     }
 
-    public Request getRequest() {
-        return request;
-    }
-
-    public void setRequest(Request request) {
-        this.request = request;
-    }
 }

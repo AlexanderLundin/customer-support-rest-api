@@ -21,8 +21,8 @@ CREATE TABLE request_notes
     note_id        INTEGER AUTO_INCREMENT,
     date_time      VARCHAR(20),
     notes          VARCHAR(50),
-    request_number INTEGER,
-    FOREIGN KEY (request_number) REFERENCES customer_requests (request_number),
+    fk_request_number INTEGER,
+    FOREIGN KEY (fk_request_number) REFERENCES customer_requests (request_number),
     PRIMARY KEY (note_id)
 );
 
@@ -50,9 +50,9 @@ INSERT INTO customer_requests(request_date_time, customer_name, customer_address
                               appointment_date, request_status)
 VALUES ('03/16/2020 12:00PM', 'Some Customer6', '123 Any Street, SomeCity, ST, 999992', '111-222-33332',
         'its broke and I need it fixed!6', 'tech6', 'appt6', 'RESOLVED');
-INSERT INTO request_notes(date_time, notes, request_number)
+INSERT INTO request_notes(date_time, notes, fk_request_number)
 VALUES ('03/16/2020 6:07PM', 'Some Notes', 1);
-INSERT INTO request_notes(date_time, notes, request_number)
+INSERT INTO request_notes(date_time, notes, fk_request_number)
 VALUES ('03/16/2020 6:08PM', 'Some Notes2', 1);
 select *
 from customer_requests;
