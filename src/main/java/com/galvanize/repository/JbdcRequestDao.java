@@ -1,6 +1,7 @@
 package com.galvanize.repository;
 
 import com.galvanize.entities.Request;
+import com.galvanize.entities.RequestStatus;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -18,6 +19,7 @@ public class JbdcRequestDao {
 
     //DB query strings
     private final String FETCH_REQUEST_BY_ID = "select * from customer_requests where requestNumber = ?";
+    private final static String UPDATE_ASSIGNED = "update customer_requests set technician = ?, appointmentDate = ?, requestStatus = ? where requestNumber = ?";
 
     public JbdcRequestDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -64,4 +66,38 @@ public class JbdcRequestDao {
 
     }
 
+
+
+    //UPDATE
+
+
+    public Request updateAssignById (long requestNumber, String technician, String appointmentDate, String appointmentTime){
+        Optional<Request> oRequest;
+        try {
+            oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_ID,
+                    (rs, rowNum) -> new Request(
+                            rs.getLong("requestNumber"),
+                            rs.getString("requestDateTime"),
+                            rs.getString("customerName"),
+                            rs.getString("customerAddress"),
+                            rs.getString("phoneNumber"),
+                            rs.getString("description"),
+                            rs.getString("technician"),
+                            rs.getString("appointmentDate"),
+                            rs.getString("requestStatus")
+                    ),
+                    requestNumber));
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+        Request request = oRequest.get();
+        request.setTechnician(technician);
+        request.setAppointmentDate(appointmentDate + " " + appointmentTime);
+        request.setRequestStatus(RequestStatus.ASSIGNED);
+        String updateQuery = UPDATE_ASSIGNED;
+        int rowEffected = jdbcTemplate.update(updateQuery, technician, appointmentDate, RequestStatus.ASSIGNED.toString() ,requestNumber);
+
+        return request;
+    }
 }

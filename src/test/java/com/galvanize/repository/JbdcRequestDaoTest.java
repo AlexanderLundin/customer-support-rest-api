@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
+//@Transactional
 class JbdcRequestDaoTest {
 
     @Autowired
@@ -64,6 +64,27 @@ class JbdcRequestDaoTest {
         assertTrue(oRequest.isPresent());
         Request request = (Request)oRequest.get();
         assertEquals(expected, request.getRequestNumber());
+        //Teardown
+    }
+
+
+    // UPDATE
+
+
+    @Test
+    public void testJdbcUpdateAssign() {
+        //Setup
+        //Exercise
+        long requestNumber = 1L;
+        String technician = "new tech";
+        String appointmentDate = "03/17/2020";
+        String appointmentTime = "10:00AM";
+        Request request = jbdcRequestDao.updateAssignById(requestNumber, technician, appointmentDate, appointmentTime);
+
+        String actual = request.getAppointmentDate();
+        String expected = appointmentDate + " " + appointmentTime;
+        //Assert
+        assertEquals(expected, actual);
         //Teardown
     }
 }
