@@ -14,23 +14,23 @@ public class Request implements Serializable {
     // database columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "requestNumber", nullable = false)
+    @Column(name = "request_number", nullable = false)
     private long requestNumber;
-    @Column(name = "requestDateTime", nullable = false)
+    @Column(name = "request_date_time", nullable = false)
     private String requestDateTime;
-    @Column(name = "customerName", nullable = false)
+    @Column(name = "customer_name", nullable = false)
     private String customerName;
-    @Column(name = "customerAddress", nullable = false)
+    @Column(name = "customer_address", nullable = false)
     private String customerAddress;
-    @Column(name = "phoneNumber", nullable = false)
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "technician")
     private String technician;
-    @Column(name = "appointmentDate")
+    @Column(name = "appointment_date")
     private String appointmentDate;
-    @Column(name = "requestStatus")
+    @Column(name = "request_status")
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
 
