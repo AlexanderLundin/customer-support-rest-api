@@ -18,14 +18,13 @@ public class RequestNote{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     //foreign key owner
     @JoinColumn(name = "request_number", nullable = false)
-    private long requestNumber;
+    private Request request;
 
 
     public RequestNote(long noteId, String dateTime, String notes, Request request) {
         this.noteId = noteId;
         this.dateTime = dateTime;
         this.notes = notes;
-        this.requestNumber = request.getRequestNumber();
     }
 
     public RequestNote() {
@@ -55,11 +54,11 @@ public class RequestNote{
         this.notes = notes;
     }
 
-//    public Request getRequest() {
-//        return request;
-//    }
-//
-//    public void setRequest(Request request) {
-//        this.request = request;
-//    }
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
 }
