@@ -1,6 +1,7 @@
 package com.galvanize.controllers;
 
 import com.galvanize.repository.JpaRequestDao;
+import com.galvanize.entities.Request;
 
 import com.google.gson.Gson;
 
