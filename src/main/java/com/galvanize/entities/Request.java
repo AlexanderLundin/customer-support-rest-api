@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "customer_requests", schema = "customer_api")
-public class Request implements Serializable {
+public class Request {
 
     // database columns
     @Id

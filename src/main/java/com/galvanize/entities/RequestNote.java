@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "request_notes", schema = "customer_api")
-public class RequestNote implements Serializable {
+public class RequestNote{
     // database columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,14 +18,16 @@ public class RequestNote implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     //foreign key owner
     @JoinColumn(name = "request_number", nullable = false)
-    private Request request;
+    private long requestNumber;
+
 
     public RequestNote(long noteId, String dateTime, String notes, Request request) {
         this.noteId = noteId;
         this.dateTime = dateTime;
         this.notes = notes;
-        this.request = request;
+        this.requestNumber = request.getRequestNumber();
     }
+
     public RequestNote() {
     }
 
@@ -53,11 +55,11 @@ public class RequestNote implements Serializable {
         this.notes = notes;
     }
 
-    public Request getRequest() {
-        return request;
-    }
-
-    public void setRequest(Request request) {
-        this.request = request;
-    }
+//    public Request getRequest() {
+//        return request;
+//    }
+//
+//    public void setRequest(Request request) {
+//        this.request = request;
+//    }
 }
