@@ -3,11 +3,11 @@ CREATE DATABASE customer_api;
 Use customer_api;
 DROP TABLE IF EXISTS customer_requests;
 CREATE TABLE customer_requests (
-    requestNumber   INTEGER NOT NULL AUTO_INCREMENT,
-    requestDateTime VARCHAR(20) NOT NULL,
-    customerName    VARCHAR(50) NOT NULL,
-    customerAddress VARCHAR(50) NOT NULL,
-    phoneNumber     VARCHAR(20) NOT NULL,
+    requestNumber   INTEGER AUTO_INCREMENT,
+    requestDateTime VARCHAR(20) DEFAULT 'EMPTY',
+    customerName    VARCHAR(50) DEFAULT 'EMPTY',
+    customerAddress VARCHAR(50) DEFAULT 'EMPTY',
+    phoneNumber     VARCHAR(20) DEFAULT 'EMPTY',
     description     VARCHAR(50),
     technician      VARCHAR(50),
     appointmentDate VARCHAR(20),

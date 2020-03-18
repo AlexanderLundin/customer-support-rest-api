@@ -1,7 +1,6 @@
 package com.galvanize.repository;
 
 import com.galvanize.entities.Request;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +19,6 @@ public class JpaRequestDao implements RequestDao {
 
     private final static String REQUEST_COUNT = "select count(*) from Request ";
     private final static String REQUEST_FIND_ALL = "select r from Request r";
-    private final String REQUEST_FIND_BY_ID = "select r from Request r where r.requestNumber = :requestNumber";
 
     // READ
 
@@ -39,18 +37,6 @@ public class JpaRequestDao implements RequestDao {
         return Requests;
     }
 
-
-
-    public Request findById(long requestNumber) {
-        TypedQuery<Request> query = em.createQuery(REQUEST_FIND_BY_ID, Request.class);
-        query.setParameter("requestNumber", requestNumber);
-        try{
-            Request officer = query.getSingleResult();
-            return null;
-        }catch(javax.persistence.NoResultException e){
-            return null;
-        }
-    }
 
     // required by interface implementation
 

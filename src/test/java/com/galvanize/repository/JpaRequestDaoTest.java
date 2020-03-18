@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
@@ -45,15 +44,4 @@ class JpaRequestDaoTest {
         //Teardown
     }
 
-    @Test
-    public void testJPARequestFindById() {
-        //Setup
-        //Exercise
-        long expected = 1L;
-        Request request = jpaRequestDao.findById(expected);
-        long actual = request.getRequestNumber();
-        //Assert
-        assertEquals(expected, actual);
-        //Teardown
-    }
 }

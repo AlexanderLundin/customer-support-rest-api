@@ -12,7 +12,7 @@ public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "requestNumber", nullable = false)
-    private Long requestNumber;
+    private long requestNumber;
     @Column(name = "requestDateTime", nullable = false)
     private String requestDateTime;
     @Column(name = "customerName", nullable = false)
@@ -39,6 +39,18 @@ public class Request {
 
     }
 
+    public Request(long requestNumber, String requestDateTime, String customerName, String customerAddress, String phoneNumber, String description, String technician, String appointmentDate, String requestStatus) {
+        this.requestNumber = requestNumber;
+        this.requestDateTime = requestDateTime;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.phoneNumber = phoneNumber;
+        this.description = description;
+        this.technician = technician;
+        this.appointmentDate = appointmentDate;
+        this.requestStatus = Enum.valueOf(RequestStatus.class, requestStatus);
+    }
+
     public Request(String customerName, String customerAddress, String phoneNumber, String description) {
         Date date = new Date();
         this.requestDateTime = sd.format(date);
@@ -46,7 +58,9 @@ public class Request {
         this.customerAddress = customerAddress;
         this.phoneNumber = phoneNumber;
         this.description = description;
-        this.technician = "UNASSIGNED";
+        this.technician = "";
+        this.appointmentDate = "";
+        this.requestStatus = RequestStatus.ASSIGNED;
     }
 
     public Long getRequestNumber() {
