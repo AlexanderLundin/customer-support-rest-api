@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -35,7 +36,7 @@ public class Request implements Serializable {
 
     @OneToMany(mappedBy = "request", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private Set<RequestNote> notes;
+    private Set<RequestNote> notes = new HashSet<>();;
 
     // class fields
     private static SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");

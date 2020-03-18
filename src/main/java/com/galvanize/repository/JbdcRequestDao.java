@@ -33,8 +33,8 @@ public class JbdcRequestDao {
                 .usingGeneratedKeyColumns("requestNumber");
         insertRequestNote = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("request_notes")
-                .usingColumns("dateTime", "notes", "requestNumber")
-                .usingGeneratedKeyColumns("noteId");
+                .usingColumns("date_time", "notes", "request_number")
+                .usingGeneratedKeyColumns("note_id");
     }
 
 
@@ -110,7 +110,7 @@ public class JbdcRequestDao {
     }
 
 
-    public Request updateRequestNoteByRequestNumber (long requestNumber, String technician, String appointmentDate, String appointmentTime, String status, String notes){
+    public Request updateRequestNoteByRequestNumber (long requestNumber, String technician, String appointmentDate, String appointmentTime, String status, String notes) {
         String dateTime = (appointmentDate + " " + appointmentTime);
 
         Optional<Request> oRequest;
@@ -137,14 +137,23 @@ public class JbdcRequestDao {
         request.setAppointmentDate(dateTime);
         request.setRequestStatus(RequestStatus.valueOf(status));
         String updateQuery = UPDATE_REQUEST_TAR_BY_ID;
-        int rowEffected = jdbcTemplate.update(updateQuery, technician, dateTime, status, requestNumber);
+        jdbcTemplate.update(updateQuery, technician, dateTime, status, requestNumber);
 
         RequestNote requestNote;
-        if (notes != ""){
-            String sql = "INSERT INTO request_notes(date_time, notes, request_number)"
-                    + " VALUES (?, ?, ?)";
-            rowEffected = jdbcTemplate.update(sql, dateTime, notes, requestNumber);
+        if (notes != "") {
+            long note_id = 1L;
+            requestNote = new RequestNote(note_id, dateTime, notes, request);
+            request.addNote(requestNote);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("node_id", note_id);
+            parameters.put("date_time", dateTime);
+            parameters.put("notes", notes);
+            parameters.put("request_number", requestNumber);
+            long finalRequestNumber = insertRequestNote.executeAndReturnKey(parameters).longValue();
+            request.setRequestNumber(finalRequestNumber);
+
         }
         return request;
     }
+
 }
