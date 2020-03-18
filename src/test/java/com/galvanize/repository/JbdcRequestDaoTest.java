@@ -35,16 +35,15 @@ class JbdcRequestDaoTest {
     @Test
     public void testJbdcCreate() {
         //Setup
-        long expected = 7L;
-        String customerName = "Some Customer";
+        String customerName = "Sample customer";
         String customerAddress = "123 Any Street, SomeCity, ST, 99999";
         String phoneNumber = "111-222-3333";
         String description = "it's broke and I need it fixed!";
         Request request = new Request(customerName, customerAddress, phoneNumber, description);
-        request.setRequestNumber(expected);
         //Exercise
+        String expected = customerName;
         request = jbdcRequestDao.save(request);
-        Long actual = request.getRequestNumber();
+        String actual = request.getCustomerName();
         //Assert
         assertEquals(expected, actual);
         //Teardown

@@ -22,9 +22,8 @@ public class JbdcRequestDao {
     private SimpleJdbcInsert insertRequestNote;
 
     //DB query strings
-    private final String FETCH_REQUEST_BY_ID = "select * from customer_requests where request_number = ?";
-    private final static String UPDATE_REQUEST_TAR_BY_ID = "update customer_requests set technician = ?, appointment_date = ?, request_status = ? where request_number = ?";
-    private final String FETCH_REQUEST_NOTE_BY_ID = "select * from request_notes where request_number = ?";
+    private final String FETCH_REQUEST_BY_REQUEST_NUMBER = "select * from customer_requests where request_number = ?";
+    private final static String UPDATE_REQUEST_TECH_DATE_STATUS_BY_REQUEST_NUMBER = "update customer_requests set technician = ?, appointment_date = ?, request_status = ? where request_number = ?";
 
     public JbdcRequestDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -54,7 +53,7 @@ public class JbdcRequestDao {
 
     public Optional<Request> findById(long id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_ID,
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_REQUEST_NUMBER,
                     (rs, rowNum) -> new Request(
                             rs.getLong("request_number"),
                             rs.getString("request_date_time"),
@@ -82,7 +81,7 @@ public class JbdcRequestDao {
     public Request updateAssignById (long requestNumber, String technician, String appointmentDate, String appointmentTime){
         Optional<Request> oRequest;
         try {
-            oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_ID,
+            oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_REQUEST_NUMBER,
                     (rs, rowNum) -> new Request(
                             rs.getLong("request_number"),
                             rs.getString("request_date_time"),
@@ -103,7 +102,7 @@ public class JbdcRequestDao {
         request.setTechnician(technician);
         request.setAppointmentDate(appointmentDate + " " + appointmentTime);
         request.setRequestStatus(RequestStatus.ASSIGNED);
-        String updateQuery = UPDATE_REQUEST_TAR_BY_ID;
+        String updateQuery = UPDATE_REQUEST_TECH_DATE_STATUS_BY_REQUEST_NUMBER;
         int rowEffected = jdbcTemplate.update(updateQuery, technician, appointmentDate, RequestStatus.ASSIGNED.toString() ,requestNumber);
 
         return request;
@@ -115,7 +114,7 @@ public class JbdcRequestDao {
 
         Optional<Request> oRequest;
         try {
-            oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_ID,
+            oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_REQUEST_NUMBER,
                     (rs, rowNum) -> new Request(
                             rs.getLong("request_number"),
                             rs.getString("request_date_time"),
@@ -136,7 +135,7 @@ public class JbdcRequestDao {
         request.setTechnician(technician);
         request.setAppointmentDate(dateTime);
         request.setRequestStatus(RequestStatus.valueOf(status));
-        String updateQuery = UPDATE_REQUEST_TAR_BY_ID;
+        String updateQuery = UPDATE_REQUEST_TECH_DATE_STATUS_BY_REQUEST_NUMBER;
         jdbcTemplate.update(updateQuery, technician, dateTime, status, requestNumber);
 
         RequestNote requestNote;
@@ -155,5 +154,6 @@ public class JbdcRequestDao {
         }
         return request;
     }
+
 
 }
