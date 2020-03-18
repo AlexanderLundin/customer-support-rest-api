@@ -87,4 +87,23 @@ class JbdcRequestDaoTest {
         assertEquals(expected, actual);
         //Teardown
     }
+
+    @Test
+    public void testJdbcUpdateRequestNote() {
+        //Setup
+        //Exercise
+        long requestNumber = 1L;
+        String technician = "new tech";
+        String appointmentDate = "03/17/2020";
+        String appointmentTime = "10:00AM";
+        String status = "RESOLVED";
+        String notes = "Some notes2";
+        Request request = jbdcRequestDao.updateRequestNoteByRequestNumber(requestNumber, technician, appointmentDate, appointmentTime, status, notes);
+
+        String actual = request.getAppointmentDate();
+        String expected = appointmentDate + " " + appointmentTime;
+        //Assert
+        assertEquals(expected, actual);
+        //Teardown
+    }
 }

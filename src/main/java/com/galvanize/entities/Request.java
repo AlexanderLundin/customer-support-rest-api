@@ -1,12 +1,14 @@
 package com.galvanize.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer_requests", schema = "customer_api")
-public class Request {
+public class Request implements Serializable {
 
     // database columns
     @Id
@@ -30,6 +32,10 @@ public class Request {
     @Column(name = "requestStatus")
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
+
+    @OneToMany(mappedBy = "request", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<RequestNote> notes;
 
     // class fields
     private static SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
@@ -143,4 +149,15 @@ public class Request {
         this.requestStatus = requestStatus;
     }
 
+    public Set<RequestNote> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(Set<RequestNote> notes) {
+        this.notes = notes;
+    }
+
+    public void addNote(RequestNote note){
+        this.notes.add(note);
+    }
 }
