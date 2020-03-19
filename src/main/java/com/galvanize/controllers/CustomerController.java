@@ -1,16 +1,14 @@
 package com.galvanize.controllers;
 
-import com.galvanize.repository.JpaRequestDao;
 import com.galvanize.entities.Request;
-
-import com.google.gson.Gson;
-
+import com.galvanize.repository.JdbcRequestDao;
+import com.galvanize.repository.JpaRequestDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -18,12 +16,28 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
+    JdbcTemplate jdbcTemplate;
+    JdbcRequestDao jdbcRequestDao;
     JpaRequestDao jpaRequestDao;
 
+
+    public CustomerController(JdbcTemplate jdbcTemplate, JpaRequestDao jpaRequestDao){
+        jdbcRequestDao = new JdbcRequestDao(jdbcTemplate);
+        this.jpaRequestDao = jpaRequestDao;
+    }
+    // READ
+
+
     @GetMapping("/service")
-    public String getAllServiceRequests(){
+    public List<Request> getAllServiceRequests(){
         List<Request> requests = jpaRequestDao.findAll();
-        String json = new Gson().toJson(requests);
-        return json;
+        return requests;
+    }
+
+    @GetMapping("/service/{requestNumber}")
+    public Request getAllServiceRequestByRequestNumber(@PathVariable long requestNumber){
+        Optional<Request> oRequest = jdbcRequestDao.findById(requestNumber);
+        Request request = oRequest.get();
+        return request;
     }
 }

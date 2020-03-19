@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class JbdcRequestDao {
+public class JdbcRequestDao {
 
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertRequest;
@@ -25,7 +25,7 @@ public class JbdcRequestDao {
     private final String FETCH_REQUEST_BY_REQUEST_NUMBER = "select * from customer_requests where request_number = ?";
     private final static String UPDATE_REQUEST_TECH_DATE_STATUS_BY_REQUEST_NUMBER = "update customer_requests set technician = ?, appointment_date = ?, request_status = ? where request_number = ?";
 
-    public JbdcRequestDao(JdbcTemplate jdbcTemplate) {
+    public JdbcRequestDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         insertRequest = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("customer_requests")

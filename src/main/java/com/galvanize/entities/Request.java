@@ -1,10 +1,10 @@
 package com.galvanize.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -33,31 +33,19 @@ public class Request {
     @Column(name = "request_status")
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
-
-
+    //foreign key owner, uni-directional
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_request_number")
-    private Set<RequestNote> notes = new HashSet<>();;
+    private Set<RequestNote> notes = new LinkedHashSet<>();;
 
-    // class fields
-    private static SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-
-    // inner class to hold partial contents of the full note object
-    class NoteContents {
-        private String dateTime;
-        private String notes;
-        public NoteContents(String dateTime, String notes){
-            this.dateTime = dateTime;
-            this.notes = notes;
-        }
-    }
 
     public Request(){
 
     }
 
     public Request(long requestNumber, String requestDateTime, String customerName, String customerAddress, String phoneNumber, String description, String technician, String appointmentDate, String requestStatus) {
+
         this.requestNumber = requestNumber;
         this.requestDateTime = requestDateTime;
         this.customerName = customerName;
@@ -70,6 +58,7 @@ public class Request {
     }
 
     public Request(String customerName, String customerAddress, String phoneNumber, String description) {
+        SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         Date date = new Date();
         this.requestDateTime = sd.format(date);
         this.customerName = customerName;
@@ -143,14 +132,6 @@ public class Request {
 
     public void setAppointmentDate(String appointmentDate) {
         this.appointmentDate = appointmentDate;
-    }
-
-    public SimpleDateFormat getSd() {
-        return sd;
-    }
-
-    public void setSd(SimpleDateFormat sd) {
-        this.sd = sd;
     }
 
     public RequestStatus getRequestStatus() {

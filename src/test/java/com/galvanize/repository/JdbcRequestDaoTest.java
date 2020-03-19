@@ -15,17 +15,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class JbdcRequestDaoTest {
+class JdbcRequestDaoTest {
 
     @Autowired
-    JbdcRequestDao jbdcRequestDao;
+    JdbcRequestDao jbdcRequestDao;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     public void setup() {
         //Setup
-        jbdcRequestDao = new JbdcRequestDao(jdbcTemplate);
+        jbdcRequestDao = new JdbcRequestDao(jdbcTemplate);
     }
 
 
