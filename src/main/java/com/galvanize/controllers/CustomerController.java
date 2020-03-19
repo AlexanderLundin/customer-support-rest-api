@@ -25,6 +25,17 @@ public class CustomerController {
         jdbcRequestDao = new JdbcRequestDao(jdbcTemplate);
         this.jpaRequestDao = jpaRequestDao;
     }
+
+
+    //CREATE
+
+
+    @PostMapping("/service")
+    public Request postServiceRequest(@RequestBody Request request){
+        return jdbcRequestDao.save(request);
+    }
+
+
     // READ
 
 
