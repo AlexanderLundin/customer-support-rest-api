@@ -78,7 +78,7 @@ public class JdbcRequestDao {
     //UPDATE
 
 
-    public Request updateAssignById (long requestNumber, String technician, String appointmentDate, String appointmentTime){
+    public Request updateAssignByRequestNumber(long requestNumber, String technician, String appointmentDate){
         Optional<Request> oRequest;
         try {
             oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_REQUEST_NUMBER,
@@ -100,7 +100,7 @@ public class JdbcRequestDao {
         }
         Request request = oRequest.get();
         request.setTechnician(technician);
-        request.setAppointmentDate(appointmentDate + " " + appointmentTime);
+        request.setAppointmentDate(appointmentDate);
         request.setRequestStatus(RequestStatus.ASSIGNED);
         String updateQuery = UPDATE_REQUEST_TECH_DATE_STATUS_BY_REQUEST_NUMBER;
         int rowEffected = jdbcTemplate.update(updateQuery, technician, appointmentDate, RequestStatus.ASSIGNED.toString() ,requestNumber);

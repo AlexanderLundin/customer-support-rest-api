@@ -51,4 +51,16 @@ public class CustomerController {
         Request request = oRequest.get();
         return request;
     }
+
+
+    //UPDATE
+
+
+    @PutMapping("/service/{requestNumber}")
+    public Request patchAssignRequestByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
+        String technician = request.getTechnician();
+        String appointmentDate = request.getAppointmentDate();
+        Request updatedRequest = jdbcRequestDao.updateAssignByRequestNumber(requestNumber, technician, appointmentDate);
+        return updatedRequest;
+    }
 }

@@ -88,10 +88,14 @@ class CustomerControllerTest {
         String body = "{\"technician\":\"Bob Builder\",\"appointmentDate\":\"01/20/2020\",\"appointmentTime\":\"08:30AM\"}";
         String url = "/api/service/6";
         //Exercise
-        mvc.perform(put(url))
+        mvc.perform(put(url)
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(CUSTOMER_6)));
+                .andExpect(content().string(containsString("Bob Builder")));
         //Assert
         //Teardown
     }
