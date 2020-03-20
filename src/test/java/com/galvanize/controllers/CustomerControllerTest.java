@@ -9,8 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -53,7 +52,6 @@ class CustomerControllerTest {
     //READ
 
 
-
     @Test
     public void testGetAllServiceRequests() throws Exception {
         //Setup
@@ -80,5 +78,41 @@ class CustomerControllerTest {
         //Teardown
     }
 
+
+    //UPDATE
+
+
+    @Test
+    public void testUpdateRequestAssignedByRequestNumber() throws Exception {
+        //Setup
+        String body = "{\"technician\":\"Bob Builder\",\"appointmentDate\":\"01/20/2020\",\"appointmentTime\":\"08:30AM\"}";
+        String url = "/api/service/6";
+        //Exercise
+        mvc.perform(put(url))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(CUSTOMER_6)));
+        //Assert
+        //Teardown
+    }
+
+
+    @Test
+    public void testUpdateRequestNoteByRequestNumber() throws Exception {
+        //Setup
+        String body = "{\"technician\":\"Bob Builder\",\"appointmentDate\":\"01/20/2020\",\"appointmentTime\":\"08:30AM\",\"requestStatus\":\"RESOLVED\",\"note\":\"words\"}";
+        String url = "/api/service/6";
+        //Exercise
+        mvc.perform(put(url)
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(CUSTOMER_6)));
+        //Assert
+        //Teardown
+    }
 
 }
