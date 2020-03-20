@@ -58,7 +58,7 @@ public class CustomerController {
 
 
     @PutMapping("/service/{requestNumber}")
-    public Request patchAssignRequestByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
+    public Request putRequestToAssignedByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
         String technician = request.getTechnician();
         String appointmentDate = request.getAppointmentDate();
         Request updatedRequest = jdbcRequestDao.updateAssignByRequestNumber(requestNumber, technician, appointmentDate);
@@ -66,7 +66,7 @@ public class CustomerController {
     }
 
     @PutMapping("/service/{requestNumber}/status")
-    public Request patchResolveRequestByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
+    public Request putRequestToResolvedByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
         String status = RequestStatus.RESOLVED.toString();
         String technician = request.getTechnician();
         String appointmentDate = request.getAppointmentDate();
