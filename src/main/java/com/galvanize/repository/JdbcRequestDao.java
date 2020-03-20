@@ -109,9 +109,7 @@ public class JdbcRequestDao {
     }
 
 
-    public Request updateRequestNoteByRequestNumber (long requestNumber, String technician, String appointmentDate, String appointmentTime, String status, String notes) {
-        String dateTime = (appointmentDate + " " + appointmentTime);
-
+    public Request updateRequestNoteByRequestNumber (long requestNumber, String technician, String appointmentDate, String status, String notes) {
         Optional<Request> oRequest;
         try {
             oRequest = Optional.ofNullable(jdbcTemplate.queryForObject(FETCH_REQUEST_BY_REQUEST_NUMBER,
@@ -133,19 +131,19 @@ public class JdbcRequestDao {
         }
         Request request = oRequest.get();
         request.setTechnician(technician);
-        request.setAppointmentDate(dateTime);
+        request.setAppointmentDate(appointmentDate);
         request.setRequestStatus(RequestStatus.valueOf(status));
         String updateQuery = UPDATE_REQUEST_TECH_DATE_STATUS_BY_REQUEST_NUMBER;
-        jdbcTemplate.update(updateQuery, technician, dateTime, status, requestNumber);
+        jdbcTemplate.update(updateQuery, technician, appointmentDate, status, requestNumber);
 
         RequestNote requestNote;
         if (notes != "") {
             long note_id = 1L;
-            requestNote = new RequestNote(note_id, dateTime, notes);
+            requestNote = new RequestNote(note_id, appointmentDate, notes);
             request.addNote(requestNote);
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("node_id", note_id);
-            parameters.put("date_time", dateTime);
+            parameters.put("date_time", appointmentDate);
             parameters.put("notes", notes);
             parameters.put("fk_request_number", requestNumber);
             long finalRequestNumber = insertRequestNote.executeAndReturnKey(parameters).longValue();

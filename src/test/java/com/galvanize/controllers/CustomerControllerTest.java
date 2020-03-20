@@ -105,7 +105,7 @@ class CustomerControllerTest {
     public void testUpdateRequestNoteByRequestNumber() throws Exception {
         //Setup
         String body = "{\"technician\":\"Bob Builder\",\"appointmentDate\":\"01/20/2020\",\"appointmentTime\":\"08:30AM\",\"requestStatus\":\"RESOLVED\",\"note\":\"words\"}";
-        String url = "/api/service/6";
+        String url = "/api/service/6/status";
         //Exercise
         mvc.perform(put(url)
                 .content(body)
@@ -114,7 +114,7 @@ class CustomerControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString(CUSTOMER_6)));
+                .andExpect(content().string(containsString("RESOLVED")));
         //Assert
         //Teardown
     }

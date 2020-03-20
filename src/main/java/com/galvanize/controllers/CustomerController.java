@@ -1,14 +1,15 @@
 package com.galvanize.controllers;
 
 import com.galvanize.entities.Request;
+import com.galvanize.entities.RequestNote;
+import com.galvanize.entities.RequestStatus;
 import com.galvanize.repository.JdbcRequestDao;
 import com.galvanize.repository.JpaRequestDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @RestController
@@ -61,6 +62,23 @@ public class CustomerController {
         String technician = request.getTechnician();
         String appointmentDate = request.getAppointmentDate();
         Request updatedRequest = jdbcRequestDao.updateAssignByRequestNumber(requestNumber, technician, appointmentDate);
+        return updatedRequest;
+    }
+
+    @PutMapping("/service/{requestNumber}/status")
+    public Request patchResolveRequestByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
+        String status = RequestStatus.RESOLVED.toString();
+        String technician = request.getTechnician();
+        String appointmentDate = request.getAppointmentDate();
+        Set<RequestNote> requestNoteSet = request.getNotes();
+        Iterator<RequestNote> iterator = requestNoteSet.iterator();
+        RequestNote requestNote = null;
+        String notes = "";
+        if (iterator.hasNext()){
+            requestNote = iterator.next();
+            notes = requestNote.getNotes();
+        }
+        Request updatedRequest = jdbcRequestDao.updateRequestNoteByRequestNumber(requestNumber, technician, appointmentDate, status, notes);
         return updatedRequest;
     }
 }

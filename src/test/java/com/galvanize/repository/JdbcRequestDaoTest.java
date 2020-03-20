@@ -91,13 +91,12 @@ class JdbcRequestDaoTest {
         //Exercise
         long requestNumber = 1L;
         String technician = "new tech";
-        String appointmentDate = "03/17/2020";
-        String appointmentTime = "10:00AM";
+        String appointmentDate = "03/17/2020 10:00AM";
         String status = "RESOLVED";
         String notes = "Some notes2";
-        Request request = jbdcRequestDao.updateRequestNoteByRequestNumber(requestNumber, technician, appointmentDate, appointmentTime, status, notes);
+        Request request = jbdcRequestDao.updateRequestNoteByRequestNumber(requestNumber, technician, appointmentDate, status, notes);
         String actual = request.getAppointmentDate();
-        String expected = appointmentDate + " " + appointmentTime;
+        String expected = appointmentDate;
         //Assert
         assertEquals(expected, actual);
         //Teardown
