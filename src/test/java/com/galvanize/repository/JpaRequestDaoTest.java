@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 @Transactional
@@ -25,10 +25,10 @@ class JpaRequestDaoTest {
     public void testJPARequestGetCount() {
         //Setup
         //Exercise
-        long expected = 6L;
+        long notExpected = 0L;
         long actual = jpaRequestDao.count();
         //Assert
-        assertEquals(expected, actual);
+        assertNotEquals(notExpected, actual);
         //Teardown
     }
 
@@ -36,11 +36,11 @@ class JpaRequestDaoTest {
     public void testJPARequestFindAll() {
         //Setup
         //Exercise
-        long expected = 6L;
+        long notExpected = 6L;
         List<Request> requests = jpaRequestDao.findAll();
         long actual = requests.size();
         //Assert
-        assertEquals(expected, actual);
+        assertNotEquals(notExpected, actual);
         //Teardown
     }
 
