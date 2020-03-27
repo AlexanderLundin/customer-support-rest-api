@@ -38,9 +38,12 @@ public class Request {
     @JoinColumn(name = "fk_request_number")
     private Set<RequestNote> notes = new LinkedHashSet<>();;
 
+    private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
     public Request(){
-
+        Date date = new Date();
+        this.requestDateTime = sd.format(date);
+        this.requestStatus = RequestStatus.UNASSIGNED;
     }
 
     public Request(long requestNumber, String requestDateTime, String customerName, String customerAddress, String phoneNumber, String description, String technician, String appointmentDate, String requestStatus) {
@@ -57,7 +60,6 @@ public class Request {
     }
 
     public Request(String customerName, String customerAddress, String phoneNumber, String description) {
-        SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         Date date = new Date();
         this.requestDateTime = sd.format(date);
         this.customerName = customerName;

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Home Page</title></head>
+<body>
+<h1>Hello !</h1>
+<p>Welcome to <span th:text="${appName}">Our App</span></p>
+<title>MySql database</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h1>ServiceRequests Table</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Skills</th>
+        <th></th>
+    </tr>
+    <tr th:each="request : ${requests}">
+        <td th:text="${request.requestDateTime + ' ' + request.customerName + ' ' + request.description}"></td>
+        <td>
+            <a th:href="@{/api/service/{requestNumber}(requestNumber=${request.requestNumber})}">view</a>
+        </td>
+    </tr>
+</table>
+<hr/>
+<form th:action="@{/api/service}" method="post" enctype="multipart/form-data">
+    <div>
+        Customer name: <input name="customerName" />
+    </div>
+    <div>
+        Customer address: <input name="customerAddress" />
+    </div>
+    <div>
+        Phone number: <input name="phoneNumber" />
+    </div>
+    <div>
+        Description: <input name="description" />
+    </div>
+    <div>
+        <input type="submit" value="Create request" name="button"/>
+    </div>
+</form>
+</body>
+</html>

@@ -7,7 +7,9 @@ import com.galvanize.repository.JdbcRequestDao;
 import com.galvanize.repository.JpaRequestDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.*;
 
@@ -36,6 +38,23 @@ public class CustomerController {
         return jdbcRequestDao.save(request);
     }
 
+    //overloaded post endpoint
+    @RequestMapping(method = RequestMethod.POST, value = "/service",
+            params = {"customerName", "customerAddress", "phoneNumber", "description"})
+    public RedirectView officerAdd(@RequestParam String customerName,
+                                   @RequestParam String customerAddress,
+                                   @RequestParam String phoneNumber,
+                                   @RequestParam String description,
+                                   Model model) {
+        Request newRequest = new Request();
+        newRequest.setCustomerName(customerName);
+        newRequest.setCustomerAddress(customerAddress);
+        newRequest.setPhoneNumber(phoneNumber);
+        newRequest.setDescription(description);
+        jdbcRequestDao.save(newRequest);
+        model.addAttribute("service", newRequest);
+        return new RedirectView("service/" + newRequest.getRequestNumber());
+    }
 
     // READ
 
