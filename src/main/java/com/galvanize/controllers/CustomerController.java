@@ -3,8 +3,8 @@ package com.galvanize.controllers;
 import com.galvanize.entities.Request;
 import com.galvanize.entities.RequestNote;
 import com.galvanize.entities.RequestStatus;
-import com.galvanize.repository.JdbcRequestDao;
 import com.galvanize.repository.JpaRequestDao;
+import com.galvanize.services.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
@@ -18,15 +18,12 @@ import java.util.*;
 @RequestMapping("/api")
 public class CustomerController {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-    JdbcRequestDao jdbcRequestDao;
-    JpaRequestDao jpaRequestDao;
+
+    RequestService requestService;
 
 
-    public CustomerController(JdbcTemplate jdbcTemplate, JpaRequestDao jpaRequestDao){
-        jdbcRequestDao = new JdbcRequestDao(jdbcTemplate);
-        this.jpaRequestDao = jpaRequestDao;
+    public CustomerController(RequestService requestService){
+        this.requestService = requestService;
     }
 
 
@@ -35,7 +32,7 @@ public class CustomerController {
 
     @PostMapping("/service")
     public Request postServiceRequest(@RequestBody Request request){
-        return jdbcRequestDao.save(request);
+        return requestService.save(request);
     }
 
     //overloaded post endpoint
@@ -51,7 +48,7 @@ public class CustomerController {
         newRequest.setCustomerAddress(customerAddress);
         newRequest.setPhoneNumber(phoneNumber);
         newRequest.setDescription(description);
-        jdbcRequestDao.save(newRequest);
+        requestService.save(newRequest);
         model.addAttribute("service", newRequest);
         return new RedirectView("service/" + newRequest.getRequestNumber());
     }
@@ -61,14 +58,13 @@ public class CustomerController {
 
     @GetMapping("/service")
     public List<Request> getAllServiceRequests(){
-        List<Request> requests = jpaRequestDao.findAll();
+        List<Request> requests = requestService.findAll();
         return requests;
     }
 
     @GetMapping("/service/{requestNumber}")
     public Request getAllServiceRequestByRequestNumber(@PathVariable long requestNumber){
-        Optional<Request> oRequest = jdbcRequestDao.findById(requestNumber);
-        Request request = oRequest.get();
+        Request request = requestService.findById(requestNumber);
         return request;
     }
 
@@ -78,26 +74,21 @@ public class CustomerController {
 
     @PutMapping("/service/{requestNumber}")
     public Request putRequestToAssignedByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
-        String technician = request.getTechnician();
-        String appointmentDate = request.getAppointmentDate();
-        Request updatedRequest = jdbcRequestDao.updateAssignByRequestNumber(requestNumber, technician, appointmentDate);
+        if(request == null){
+            request = requestService.findById(requestNumber);
+        }
+        Request updatedRequest = requestService.updateById(requestNumber, request);
         return updatedRequest;
     }
 
     @PutMapping("/service/{requestNumber}/status")
     public Request putRequestToResolvedByRequestNumber(@PathVariable long requestNumber, @RequestBody Request request){
-        String status = RequestStatus.RESOLVED.toString();
-        String technician = request.getTechnician();
-        String appointmentDate = request.getAppointmentDate();
-        Set<RequestNote> requestNoteSet = request.getNotes();
-        Iterator<RequestNote> iterator = requestNoteSet.iterator();
-        RequestNote requestNote = null;
-        String notes = "";
-        if (iterator.hasNext()){
-            requestNote = iterator.next();
-            notes = requestNote.getNotes();
+        RequestStatus status = RequestStatus.RESOLVED;
+        if(request == null){
+            request = requestService.findById(requestNumber);
+            request.setRequestStatus(status);
         }
-        Request updatedRequest = jdbcRequestDao.updateRequestNoteByRequestNumber(requestNumber, technician, appointmentDate, status, notes);
+        Request updatedRequest = requestService.updateById(requestNumber, request);
         return updatedRequest;
     }
 }

@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "customer_requests", schema = "customer_api")
+@Table(name = "customer_requests")
 public class Request {
 
     // database columns
@@ -15,15 +15,15 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_number", nullable = false)
     private long requestNumber;
-    @Column(name = "request_date_time", nullable = false)
+    @Column(name = "request_date_time")
     private String requestDateTime;
-    @Column(name = "customer_name", nullable = false)
+    @Column(name = "customer_name")
     private String customerName;
-    @Column(name = "customer_address", nullable = false)
+    @Column(name = "customer_address")
     private String customerAddress;
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
     @Column(name = "technician")
     private String technician;
@@ -38,6 +38,7 @@ public class Request {
     @JoinColumn(name = "fk_request_number")
     private Set<RequestNote> notes = new LinkedHashSet<>();;
 
+    @Transient
     private SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
     public Request(){

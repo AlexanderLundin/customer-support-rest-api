@@ -34,6 +34,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     // required for guava
     compile group: 'com.google.guava', name: 'guava', version: '23.5-jre' //or 23.5-android for the Android flavor
+    // required for h2 memory db
+    testCompile group: 'com.h2database', name: 'h2'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

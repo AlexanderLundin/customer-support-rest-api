@@ -3,7 +3,7 @@ package com.galvanize.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "request_notes", schema = "customer_api")
+@Table(name = "request_notes")
 public class RequestNote{
     // database columns
     @Id
@@ -18,6 +18,11 @@ public class RequestNote{
 
     public RequestNote(long noteId, String dateTime, String notes) {
         this.noteId = noteId;
+        this.dateTime = dateTime;
+        this.notes = notes;
+    }
+
+    public RequestNote(String dateTime, String notes) {
         this.dateTime = dateTime;
         this.notes = notes;
     }
