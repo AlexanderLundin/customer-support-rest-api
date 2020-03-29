@@ -9,12 +9,12 @@
 <h1>ServiceRequests Table</h1>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Skills</th>
+        <th>Customer</th>
+        <th>Json Data View</th>
         <th></th>
     </tr>
-    <tr th:each="request : ${requests}">
-        <td th:text="${request.requestDateTime + ' ' + request.customerName + ' ' + request.description}"></td>
+    <tr th:each="request : ${officers}">
+        <td th:text="${request.requestDateTime + ' ' + request.customerName + ' ' + request.customerAddress + ' ' + request.phoneNumber + ' ' + request.description + ' ' + request.technician + ' ' + request.appointmentDate + ' ' + request.requestStatus}"></td>
         <td>
             <a th:href="@{/api/service/{requestNumber}(requestNumber=${request.requestNumber})}">view</a>
         </td>
