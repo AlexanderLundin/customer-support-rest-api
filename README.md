@@ -1,10 +1,10 @@
-# spring-data-star-trek
+# customer-support-rest-api
 Spring RESTful API for customer service requests
 
 # Hosted on AWS
 View this link for the production copy of this application:
 
-http://startrek-env.eba-yvaab2p3.us-east-2.elasticbeanstalk.com
+http://customersupportrestapi-env.eba-ksptp62k.us-east-2.elasticbeanstalk.com/
 
 # Stack used
 Below is a list of technologies used on this project
@@ -26,8 +26,13 @@ JBDC
 Thymeleaf html
 
 # Steps to build
+
 Clone project
+
 gradlew build
+
 run main method in CustomerApiApplication class
+
 go to 
+
 http://localhost:8080/
