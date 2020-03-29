@@ -4,7 +4,7 @@ Spring RESTful API for customer service requests
 # Hosted on AWS
 View this link for the production copy of this application:
 
-http://customersupportrestapi-env.eba-ksptp62k.us-east-2.elasticbeanstalk.com/
+http://customersupportrestapi-env.eba-4fagejnc.us-east-2.elasticbeanstalk.com/
 
 # Stack used
 Below is a list of technologies used on this project
